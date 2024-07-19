@@ -1,6 +1,9 @@
+import 'package:chatapp/services/auth_service.dart';
+import 'package:chatapp/services/navigation_service.dart';
 import 'package:chatapp/utils/constants.dart';
 import 'package:chatapp/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,8 +13,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GetIt getIt = GetIt.instance;
   final GlobalKey<FormState> _loginFormKey = GlobalKey();
-  String? email,password;
+  late AuthService authService;
+  late NavigationService _navigationService;
+  String? email, password;
+
+  @override
+  void initState() {
+    super.initState();
+    authService = getIt.get<AuthService>();
+    _navigationService = getIt.get<NavigationService>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            headerText(),
-            loginForm(),
-            createAccountLink()
-          ],
+          children: [headerText(), loginForm(), createAccountLink()],
         ),
       ),
     );
@@ -72,20 +82,20 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               CustomTextField(
                 height: MediaQuery.sizeOf(context).height * 0.1,
-                hintText: 'E-mail', 
+                hintText: 'E-mail',
                 validationRegExp: EMAIL_VALIDATION_REGEX,
                 onSaved: (value) {
                   setState(() {
-                    password = value;
+                    email = value;
                   });
                 },
               ),
               CustomTextField(
                 obscureText: true,
                 height: MediaQuery.sizeOf(context).height * 0.1,
-                hintText: 'Password', 
+                hintText: 'Password',
                 validationRegExp: PASSWORD_VALIDATION_REGEX,
-                 onSaved: (value) {
+                onSaved: (value) {
                   setState(() {
                     password = value;
                   });
@@ -93,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               _loginButton()
             ],
-            
           ),
         ));
   }
@@ -103,9 +112,15 @@ class _LoginScreenState extends State<LoginScreen> {
       width: MediaQuery.sizeOf(context).width,
       child: MaterialButton(
         color: Theme.of(context).primaryColor,
-        onPressed: () {
-          if(_loginFormKey.currentState?.validate() ?? false) {
+        onPressed: () async {
+          if (_loginFormKey.currentState?.validate() ?? false) {
             _loginFormKey.currentState?.save();
+
+            bool result = await authService.login(email!, password!);
+
+            if (result) {
+              _navigationService.pushReplacementNamed('/home');
+            } else {}
           }
         },
         child: const Text("Login", style: TextStyle(color: Colors.white)),
