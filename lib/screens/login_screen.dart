@@ -1,3 +1,4 @@
+import 'package:chatapp/services/alert_service.dart';
 import 'package:chatapp/services/auth_service.dart';
 import 'package:chatapp/services/navigation_service.dart';
 import 'package:chatapp/utils/constants.dart';
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey();
   late AuthService authService;
   late NavigationService _navigationService;
+  late AlertService _alertService;
   String? email, password;
 
   @override
@@ -24,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     authService = getIt.get<AuthService>();
     _navigationService = getIt.get<NavigationService>();
+    _alertService = getIt.get<AlertService>();
   }
 
   @override
@@ -120,7 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if (result) {
               _navigationService.pushReplacementNamed('/home');
-            } else {}
+              _alertService.showToast(text: "Login successful");
+            } else {
+              _alertService.showToast(text: "Failed to login, Please try again!", icon: Icons.error);
+            }
           }
         },
         child: const Text("Login", style: TextStyle(color: Colors.white)),
