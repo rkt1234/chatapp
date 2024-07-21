@@ -1,5 +1,6 @@
 import 'package:chatapp/screens/home_screen.dart';
 import 'package:chatapp/screens/login_screen.dart';
+import 'package:chatapp/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationService {
@@ -8,6 +9,7 @@ class NavigationService {
   final Map<String,Widget Function(BuildContext)> _routes = {
       "/login": (context) => const LoginScreen(),
       "/home": (context) => const HomeScreen(),
+      "/register": (context) => const SignupScreen()
   };
 
   GlobalKey<NavigatorState>? get navigatorKey {
