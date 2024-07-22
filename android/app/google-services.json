@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "787483996423",
-    "project_id": "chatapp-406bf",
-    "storage_bucket": "chatapp-406bf.appspot.com"
+    "project_number": "892413213063",
+    "project_id": "chatify-97921",
+    "storage_bucket": "chatify-97921.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:787483996423:android:7e9f4edd6d8d8735a415a2",
+        "mobilesdk_app_id": "1:892413213063:android:9b09773a86f1256bb0bb22",
         "android_client_info": {
           "package_name": "com.example.chatapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDOrFyCAbf90qV9tqrMiyqJ7EWxNnwiUpg"
+          "current_key": "AIzaSyAF4F8_iudwO7WviH3LfyrvcseTb7OZWnU"
         }
       ],
       "services": {
